@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.granite/
+*.ait
+.env
+.env.local
+*.local
+.DS_Store
+node_modules/.cache/

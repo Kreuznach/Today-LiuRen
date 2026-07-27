@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1",
+  "id": "today-liuren",
+  "name": "오늘의 육임점",
+  "version": "0.1.0",
+  "entry": "index.html",
+  "orientation": "portrait",
+  "backgroundColor": "#ffffff"
+}
