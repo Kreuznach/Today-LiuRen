@@ -66,5 +66,7 @@
 ## 6. 사용자가 나중에 채워야 할 값
 
 - `granite.config.ts`의 `brand.icon` (심사용 아이콘 URL)
-- `.env.local`의 `VITE_AIT_REWARDED_DETAIL_AD_GROUP_ID`, `VITE_AIT_REWARDED_EXTRA_QUESTION_AD_GROUP_ID`
+- ~~`.env.local`의 `VITE_AIT_REWARDED_DETAIL_AD_GROUP_ID`, `VITE_AIT_REWARDED_EXTRA_QUESTION_AD_GROUP_ID`~~ →
+  실제 발급된 ID(`ait.v2.live.13dd43c6c51f4add` / `ait.v2.live.57e003203911488c`)로 적용 완료
+  (2026-07-29), `VITE_AD_ENV=production`으로 고정.
 - (선택) Supabase, AI API 값 — 지금은 비워 둬도 앱이 정상 동작함

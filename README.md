@@ -89,12 +89,13 @@ npm run build:ait
 
 ## 6. 올리기 전에 꼭 바꿔야 하는 값
 
-지금은 전부 "테스트용 임시 값"으로 되어 있어요. 실제로 출시하려면 아래 값을 바꿔주세요.
+실제로 출시하려면 아래 값을 바꿔주세요.
 
 | 무엇을 | 어디서 | 비고 |
 | --- | --- | --- |
 | 앱 이름/아이콘 | `granite.config.ts`의 `brand` | 토스 콘솔에서 아이콘 심사 후 URL 발급받기 |
-| 광고 그룹 ID | `.env.local`의 `VITE_AIT_REWARDED_*` | 토스 파트너 콘솔에서 발급 |
+| 광고 그룹 ID | `.env.local`(및 `.env.example`)의 `VITE_AIT_REWARDED_*` | ✅ 발급 완료 — 정밀 분석용 `ait.v2.live.13dd43c6c51f4add`(`detail`), 질문권 추가용 `ait.v2.live.57e003203911488c`(`extraQuestion`) 적용됨 |
+| 광고 환경 설정 | `.env.local`(및 `.env.example`)의 `VITE_AD_ENV` | ✅ `production`으로 고정 — dev/build 여부와 관계없이 항상 실제 광고 ID를 사용함 |
 | Supabase 값(선택) | `.env.local`의 `VITE_SUPABASE_*` | 지금은 사용 안 함(로컬 저장만 사용) |
 | AI 해석 서버(선택) | `AI_API_ENDPOINT`, `AI_API_SECRET` | 아직 준비 안 됨, 나중에 서버를 통해서만 연결 |
 
