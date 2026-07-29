@@ -26,8 +26,9 @@ function Shell() {
 
   return (
     <div className="app-shell">
+      {/* 앱 이름(브랜드)은 토스 인앱 상단바에서 이미 보여주므로, 여기서는 화면별 맥락 라벨만 표시한다. */}
       <TopBar
-        title={view === 'question' ? '오늘의 육임점' : '오늘의 점괘'}
+        title={view === 'question' ? '질문하기' : '오늘의 점괘'}
         onBack={view === 'reading' ? handleRestart : undefined}
       />
       <main className="app-main">

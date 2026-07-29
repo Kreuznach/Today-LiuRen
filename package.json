@@ -2,7 +2,7 @@
   "name": "today-liuren",
   "version": "0.1.0",
   "private": true,
-  "description": "오늘의 육임점 — 앱인토스(Apps in Toss) 미니앱",
+  "description": "오늘의 동양점술 — 앱인토스(Apps in Toss) 미니앱",
   "type": "module",
   "scripts": {
     "dev": "vite",

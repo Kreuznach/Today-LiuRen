@@ -12,7 +12,7 @@ export default defineConfig({
   appName: 'today-liuren',
 
   brand: {
-    displayName: '오늘의 육임점',
+    displayName: '오늘의 동양점술',
     // NOTE: 심사 통과용 아이콘 업로드 후 Toss 콘솔에서 발급된 URL로 교체
     icon: 'https://placehold.co/96x96/4C3B8F/ffffff.png',
     primaryColor: '#4C3B8F',

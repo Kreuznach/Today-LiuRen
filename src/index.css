@@ -64,15 +64,11 @@ body {
   margin: 0 auto;
 }
 
-.question-header h1 {
-  font-size: 22px;
-  margin: 8px 0 4px;
-}
-
 .question-subtitle {
-  color: var(--color-text-dim);
-  font-size: 14px;
-  margin: 0 0 20px;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 8px 0 20px;
 }
 
 .question-section {
@@ -268,6 +264,11 @@ body {
 
 .detail-section { background: var(--color-surface); border-radius: 14px; padding: 14px; }
 .detail-hint { font-size: 13px; color: var(--color-text-dim); margin-bottom: 10px; }
+.detail-text {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  font-size: 14px;
+}
 .detail-body h3 { font-size: 13px; margin: 14px 0 6px; }
 .detail-body ul { margin: 0; padding-left: 18px; font-size: 13px; }
 .one-line-conclusion { font-weight: 700; }

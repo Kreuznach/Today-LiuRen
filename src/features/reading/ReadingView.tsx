@@ -78,7 +78,7 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
         )}
         {detail && (
           <div className="detail-body">
-            <p>{detail.detailText}</p>
+            <p className="detail-text">{detail.detailText}</p>
             <h3>✅ 지금 할 수 있는 행동</h3>
             <ul>{detail.doNow.map((line, i) => <li key={i}>{line}</li>)}</ul>
             <h3>🚫 피해야 할 행동</h3>
