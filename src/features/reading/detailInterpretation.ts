@@ -43,19 +43,19 @@ function buildFallbackDetail(reading: LiurenReading): DetailReading {
   const expectedVariables: string[] = []
 
   if (!firstTransmission.isVoid) {
-    doNow.push('초전이 살아 있으니 지금 바로 첫걸음을 떼 보세요.')
+    doNow.push('일의 시작 부분에 힘이 실려 있으니 지금 바로 첫걸음을 떼 보세요.')
   } else {
-    avoid.push('초전이 비어 있어(공망) 지금 서둘러 확정 짓는 것은 피하세요.')
+    avoid.push('일의 시작 부분이 아직 비어 있어, 지금 서둘러 확정 짓는 것은 피하세요.')
   }
 
   if (middleTransmission.strength === '수' || middleTransmission.strength === '사') {
-    expectedVariables.push('중간 과정에서 힘이 약해지는 구간이 있어 예상보다 더뎌질 수 있습니다.')
+    expectedVariables.push('일이 진행되는 중간에 힘이 약해지는 구간이 있어 예상보다 더뎌질 수 있습니다.')
   } else {
-    doNow.push('중전의 흐름이 나쁘지 않으니 중간 점검을 미루지 마세요.')
+    doNow.push('일의 중간 흐름이 나쁘지 않으니 중간 점검을 미루지 마세요.')
   }
 
   if (finalTransmission.isVoid) {
-    expectedVariables.push('말전이 비어 있어 결론이 한 번 더 바뀔 수 있습니다.')
+    expectedVariables.push('일의 마무리 부분이 아직 정해지지 않아 결론이 한 번 더 바뀔 수 있습니다.')
   }
 
   if (raw.patternNames.includes('반음과') || raw.patternNames.includes('섭해과')) {

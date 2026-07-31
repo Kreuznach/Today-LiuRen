@@ -73,6 +73,11 @@ const STRENGTH_TEXT: Record<Strength, string> = {
   수: '갇혀 있는', 사: '기운이 빠진'
 }
 
+/** 삼전 위치를 어려운 한자어 대신 일상어로 (초전→처음, 말전→마지막 …) */
+const POSITION_PLAIN: Record<Transmission['position'], string> = {
+  초전: '처음 단계', 중전: '중간 단계', 말전: '마지막 단계'
+}
+
 /**
  * 과전 구조에서 기운 점수를 계산한다.
  */
@@ -111,9 +116,9 @@ export function computeStructureScore(result: CoursePlatResult): StructureScore 
       neutral += 6 * weight
       positive -= 3 * weight
       negative -= 1 * weight
-      reasons.push(`${t.position}이 비어 있어(공망) 그 단계는 결론이 늦게 납니다.`)
+      reasons.push(`${POSITION_PLAIN[t.position]}는 아직 자리가 비어 있어, 그 부분은 결론이 늦게 정해집니다.`)
     } else if (t.strength === '왕' || t.strength === '사') {
-      reasons.push(`${t.position}은 ${STRENGTH_TEXT[t.strength]} 자리입니다.`)
+      reasons.push(`${POSITION_PLAIN[t.position]}는 ${STRENGTH_TEXT[t.strength]} 자리입니다.`)
     }
   }
 
