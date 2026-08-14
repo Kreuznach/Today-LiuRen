@@ -1,14 +1,8 @@
 /**
  * labels.ts — 화면 표기 전용 (계산 로직에는 영향 없음)
- * Rimora 원본 utils/labels.ts 중 이 앱에서 쓰는 표기만 이식했다.
+ * 화면에는 한자 대신 누구나 아는 쉬운 말만 쓴다.
  */
-import type { Branch } from './types'
-
-const BRANCH_HANJA: Record<Branch, string> = {
-  zi: '子', chou: '丑', yin: '寅', mao: '卯',
-  chen: '辰', si: '巳', wu: '午', wei: '未',
-  shen: '申', you: '酉', xu: '戌', hai: '亥',
-}
+import type { Branch, Strength } from './types'
 
 const BRANCH_KOREAN: Record<Branch, string> = {
   zi: '자', chou: '축', yin: '인', mao: '묘',
@@ -16,7 +10,24 @@ const BRANCH_KOREAN: Record<Branch, string> = {
   shen: '신', you: '유', xu: '술', hai: '해',
 }
 
-/** 지지 — 한자 + 한글 병기 (예: 子(자)) */
-export function branchLabel(b: Branch): string {
-  return `${BRANCH_HANJA[b]}(${BRANCH_KOREAN[b]})`
+/** 12칸을 누구나 아는 열두 띠 동물 이름으로 바꾼 표기 */
+const BRANCH_ANIMAL: Record<Branch, string> = {
+  zi: '쥐', chou: '소', yin: '호랑이', mao: '토끼',
+  chen: '용', si: '뱀', wu: '말', wei: '양',
+  shen: '원숭이', you: '닭', xu: '개', hai: '돼지',
 }
+
+/** 화면용 쉬운 표기 — 띠 동물 + 한글 (예: 쥐(자)) */
+export function branchLabel(b: Branch): string {
+  return `${BRANCH_ANIMAL[b]}(${BRANCH_KOREAN[b]})`
+}
+
+/** 힘의 세기(왕상휴수사)를 화면용 쉬운 말로 */
+const STRENGTH_PLAIN: Record<Strength, string> = {
+  왕: '아주 셈', 상: '세지는 중', 휴: '쉬어 감', 수: '막혀 있음', 사: '많이 약함',
+}
+
+export function strengthLabel(s: Strength): string {
+  return STRENGTH_PLAIN[s]
+}
+

@@ -76,13 +76,13 @@ function buildCaution(result: CoursePlatResult, generals: Record<HeavenlyGeneral
 
   const lines: string[] = []
   if (risky.length > 0) {
-    lines.push('부딪히기 쉬운 지점이 있으니 말과 문서를 한 번 더 확인하세요.')
+    lines.push('말과 서류에서 부딞히기 쉬우니 한 번 더 확인하세요.')
   }
   if (weak.length > 0) {
     lines.push('혼자 힘으로 밀어붙이기보다 도움을 받는 편이 안전합니다.')
   }
   if (empty.length > 0) {
-    lines.push('결정이 비어 있는 구간이 있어, 지금 확정하면 다시 바뀔 수 있습니다.')
+    lines.push('아직 정해지지 않은 부분이 있어, 지금 결정하면 나중에 바뀔 수 있습니다.')
   }
   return lines.join(' ')
 }
@@ -96,9 +96,9 @@ export function buildFallbackInterpretation(result: CoursePlatResult): string {
 
   const courseEntry = courses[result.courseName]
   const summaryText = courseEntry?.summary
-    ?? '지금 상황의 전체 흐름을 차분히 살펴보라는 점괘입니다.'
+    ?? '지금 상황의 흐름을 차분히 살펴보라는 뜻입니다.'
   const baseText = courseEntry?.general
-    ?? '현재의 흐름을 기준으로 상황을 풀어 설명합니다.'
+    ?? '지금의 흐름을 기준으로 상황을 풀어 설명합니다.'
   const adviceText = courseEntry?.advice ?? courseEntry?.focus ?? ''
   const queryText = courseEntry?.byQuery?.[result.queryType] ?? ''
 

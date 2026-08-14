@@ -1,7 +1,7 @@
 /**
  * features/reading/ReadingView.tsx
- * 결과 화면 — 기본 해석은 광고 없이 바로 보여주고,
- * 심화 해석은 보상형 광고 시청 후에만 열람할 수 있다.
+ * 결과 화면 — 기본 해설은 광고 없이 바로 보여주고,
+ * 더 자세한 해설은 보상형 광고 시청 후에만 열람할 수 있다.
  */
 import { useState } from 'react'
 import { useApp } from '../../context/AppContext'
@@ -29,7 +29,7 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
     try {
       const ad = await watchRewardAd('detail')
       if (ad.status !== 'completed') {
-        showToast('광고를 끝까지 봐야 심화 해석을 볼 수 있어요.')
+        showToast('광고를 끝까지 봐야 더 자세한 해설을 볼 수 있어요.')
         return
       }
       const result = await getDetailReading(reading)
@@ -46,7 +46,7 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
           {reading.classification}
         </span>
         <button type="button" className="glossary-trigger" onClick={() => setShowGlossary(true)}>
-          용어가 어려워요? ⓘ
+          말이 어려워요? ⓘ
         </button>
       </header>
 
@@ -56,7 +56,7 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
       </section>
 
       <section className="reading-section">
-        <h2>초전 · 중전 · 말전</h2>
+        <h2>🌱 시작 → 🔄 중간 → 🏁 마무리</h2>
         <TransmissionCards
           transmissions={[reading.firstTransmission, reading.middleTransmission, reading.finalTransmission]}
         />
@@ -67,25 +67,25 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
       </section>
 
       <section className="reading-section detail-section">
-        <h2>🔓 심화 해석</h2>
+        <h2>🔓 더 자세한 해설</h2>
         {!detail && (
           <>
-            <p className="detail-hint">광고를 하나 보면 상세 해석·행동 가이드를 볼 수 있어요.</p>
+            <p className="detail-hint">광고를 하나 보면 지금 할 일과 피할 일까지 더 알려드려요.</p>
             <button type="button" className="cta-button secondary" onClick={handleUnlockDetail} disabled={loadingDetail}>
-              {loadingDetail ? '준비하는 중…' : '광고 보고 심화 해석 보기'}
+              {loadingDetail ? '준비하는 중…' : '광고 보고 자세한 해설 보기'}
             </button>
           </>
         )}
         {detail && (
           <div className="detail-body">
             <p className="detail-text">{detail.detailText}</p>
-            <h3>✅ 지금 할 수 있는 행동</h3>
+            <h3>✅ 지금 할 수 있는 일</h3>
             <ul>{detail.doNow.map((line, i) => <li key={i}>{line}</li>)}</ul>
-            <h3>🚫 피해야 할 행동</h3>
+            <h3>🚫 피하면 좋은 일</h3>
             <ul>{detail.avoid.map((line, i) => <li key={i}>{line}</li>)}</ul>
-            <h3>❓ 예상되는 변수</h3>
+            <h3>❓ 달라질 수 있는 점</h3>
             <ul>{detail.expectedVariables.map((line, i) => <li key={i}>{line}</li>)}</ul>
-            <h3>🏁 한 문장 결론</h3>
+            <h3>🏁 한 줄 결론</h3>
             <p className="one-line-conclusion">{detail.oneLineConclusion}</p>
           </div>
         )}
@@ -96,7 +96,7 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
       </button>
 
       <p className="disclaimer">
-        이 결과는 참고용 콘텐츠이며, 중요한 결정은 전문가와 상의해 주세요.
+        이 결과는 재미로 보는 참고용이에요. 중요한 결정은 어른이나 전문가와 상의해 주세요.
       </p>
 
       {showGlossary && <GlossaryModal onClose={() => setShowGlossary(false)} />}

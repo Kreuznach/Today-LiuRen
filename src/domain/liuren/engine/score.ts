@@ -141,14 +141,14 @@ export function computeStructureScore(result: CoursePlatResult): StructureScore 
   // ── 특수 구조 보정 ───────────────────────────────────
   if (result.patternNames.includes('연여과')) {
     positive += 6
-    reasons.push('흐름이 한 칸씩 앞으로 나아가는 모양이라 진행이 순합니다.')
+    reasons.push('흐름이 한 칸씩 앞으로 나아가는 모양이라 일이 순조롭게 이어집니다.')
   }
   if (result.patternNames.includes('퇴연주격')) {
     neutral += 6
     reasons.push('흐름이 한 칸씩 뒤로 물러나는 모양이라 서두르면 손해입니다.')
   }
   if (result.courseName === '복음과') {
-    reasons.push('지금은 판이 멈춰 있어 새로 벌이기보다 지키는 편이 낫습니다.')
+    reasons.push('지금은 상황이 멈춰 있어 새로 벌이기보다 지키는 편이 낫습니다.')
   }
   if (result.courseName === '반음과') {
     reasons.push('갔다가 되돌아오는 모양이라 결정이 한 번 뒤집힐 수 있습니다.')

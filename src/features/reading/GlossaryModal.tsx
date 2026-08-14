@@ -13,7 +13,7 @@ export default function GlossaryModal({ onClose }: GlossaryModalProps) {
     <div className="modal-backdrop" role="dialog" aria-modal="true" onClick={onClose}>
       <div className="modal-sheet" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>용어 도움말</h2>
+          <h2>어려운 말 풀이</h2>
           <button type="button" onClick={onClose} aria-label="닫기">✕</button>
         </div>
         <div className="modal-body">
