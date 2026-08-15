@@ -76,7 +76,7 @@ function buildCaution(result: CoursePlatResult, generals: Record<HeavenlyGeneral
 
   const lines: string[] = []
   if (risky.length > 0) {
-    lines.push('말과 서류에서 부딞히기 쉬우니 한 번 더 확인하세요.')
+    lines.push('말과 서류에서 부딪히기 쉬우니 한 번 더 확인하세요.')
   }
   if (weak.length > 0) {
     lines.push('혼자 힘으로 밀어붙이기보다 도움을 받는 편이 안전합니다.')

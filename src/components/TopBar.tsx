@@ -1,6 +1,6 @@
 /**
  * components/TopBar.tsx
- * 화면 상단 바 — 뒤로가기/종료 버튼과 제목을 보여준다.
+ * 화면 상단 바 — 뒤로 가기/종료 버튼과 제목을 보여 준다.
  */
 interface TopBarProps {
   title: string

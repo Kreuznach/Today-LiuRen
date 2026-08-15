@@ -1,6 +1,6 @@
 /**
  * features/reading/GlossaryModal.tsx
- * "용어가 어려워요?" 버튼을 누르면 뜨는 간단한 용어 도움말 모달.
+ * "말이 어려워요?" 버튼을 누르면 뜨는 간단한 용어 도움말 모달.
  */
 import { GLOSSARY, GLOSSARY_ORDER } from '../../domain/liuren/data/glossary'
 

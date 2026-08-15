@@ -88,7 +88,7 @@ export default function QuestionView({ onReady }: QuestionViewProps) {
     <div className="question-view">
       {/* 앱 이름은 토스 상단바 + TopBar에서 이미 보이므로 여기서 또 반복하지 않는다. */}
       <header className="question-header">
-        <p className="question-subtitle">궁금한 것을 물어보면, 지금 이 순간의 흐름으로 풀어드려요.</p>
+        <p className="question-subtitle">궁금한 것을 물어보면, 지금 이 순간의 흐름으로 풀어 드려요.</p>
       </header>
 
       <section className="question-section">

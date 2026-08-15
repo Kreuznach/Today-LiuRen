@@ -1,6 +1,6 @@
 /**
  * features/reading/ReadingView.tsx
- * 결과 화면 — 기본 해설은 광고 없이 바로 보여주고,
+ * 결과 화면 — 기본 해설은 광고 없이 바로 보여 주고,
  * 더 자세한 해설은 보상형 광고 시청 후에만 열람할 수 있다.
  */
 import { useState } from 'react'
@@ -70,7 +70,7 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
         <h2>🔓 더 자세한 해설</h2>
         {!detail && (
           <>
-            <p className="detail-hint">광고를 하나 보면 지금 할 일과 피할 일까지 더 알려드려요.</p>
+            <p className="detail-hint">광고를 하나 보면 지금 할 일과 피할 일까지 더 알려 드려요.</p>
             <button type="button" className="cta-button secondary" onClick={handleUnlockDetail} disabled={loadingDetail}>
               {loadingDetail ? '준비하는 중…' : '광고 보고 자세한 해설 보기'}
             </button>

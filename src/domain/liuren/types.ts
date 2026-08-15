@@ -27,7 +27,7 @@ export type HeavenlyGeneral =
 /**
  * 육임 엔진 내부에서 쓰는 질문 유형.
  * Rimora 원본의 6종 분류를 그대로 유지한다 (courses.json의 byQuery 키와 1:1 대응).
- * 화면에 노출되는 5개 사용자 카테고리는 features/question/categories.ts 에서
+ * 화면에 노출되는 5개 사용자 카테고리는 features/question/categories.ts에서
  * 이 타입으로 매핑한다.
  */
 export type QueryType = '사업'|'연애'|'건강'|'분실물'|'여행'|'기타'
