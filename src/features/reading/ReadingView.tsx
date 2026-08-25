@@ -39,12 +39,18 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
     }
   }
 
+  const mood = moodOf(reading.classification)
+
   return (
     <div className="reading-view">
       <header className="reading-header">
-        <span className={`classification-badge classification-${classificationTone(reading.classification)}`}>
-          {reading.classification}
-        </span>
+        <div className={`mood-banner mood-${mood.tone}`}>
+          <span className="mood-emoji" aria-hidden="true">{mood.emoji}</span>
+          <div className="mood-copy">
+            <div className="mood-title">{mood.title}</div>
+            <div className="mood-hint">{mood.hint}</div>
+          </div>
+        </div>
         <button type="button" className="glossary-trigger" onClick={() => setShowGlossary(true)}>
           말이 어려워요? ⓘ
         </button>
@@ -104,13 +110,44 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
   )
 }
 
-function classificationTone(classification: LiurenReading['classification']): string {
-  switch (classification) {
-    case '긍정 우세': return 'positive'
-    case '신중한 긍정': return 'soft-positive'
-    case '중립': return 'neutral'
-    case '변수 많음': return 'volatile'
-    case '주의 필요': return 'caution'
-    default: return 'neutral'
-  }
+const MOOD_COPY: Record<LiurenReading['classification'], {
+  emoji: string
+  title: string
+  hint: string
+  tone: string
+}> = {
+  '긍정 우세': {
+    emoji: '☀️',
+    title: '흐름이 좋아요',
+    hint: '지금 방향이 잘 맞아요.',
+    tone: 'positive',
+  },
+  '신중한 긍정': {
+    emoji: '🙂',
+    title: '괜찮지만 천천히',
+    hint: '서두르지 말고 한 걸음씩 가요.',
+    tone: 'soft-positive',
+  },
+  '중립': {
+    emoji: '⚖️',
+    title: '보통이에요',
+    hint: '크게 치우치지 않은 때예요.',
+    tone: 'neutral',
+  },
+  '변수 많음': {
+    emoji: '🔀',
+    title: '바뀔 수 있어요',
+    hint: '중간에 상황이 흔들릴 수 있어요.',
+    tone: 'volatile',
+  },
+  '주의 필요': {
+    emoji: '⚠️',
+    title: '조심하세요',
+    hint: '지금은 한 번 더 살펴보는 게 좋아요.',
+    tone: 'caution',
+  },
+}
+
+function moodOf(classification: LiurenReading['classification']) {
+  return MOOD_COPY[classification]
 }

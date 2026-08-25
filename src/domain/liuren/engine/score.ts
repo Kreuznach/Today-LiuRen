@@ -116,9 +116,9 @@ export function computeStructureScore(result: CoursePlatResult): StructureScore 
       neutral += 6 * weight
       positive -= 3 * weight
       negative -= 1 * weight
-      reasons.push(`${POSITION_PLAIN[t.position]}는 아직 자리가 비어 있어, 그 부분은 결론이 늦게 정해집니다.`)
+      reasons.push(`${POSITION_PLAIN[t.position]}는 아직 자리가 비어 있어요. 그 부분은 늦게 정해져요.`)
     } else if (t.strength === '왕' || t.strength === '사') {
-      reasons.push(`${POSITION_PLAIN[t.position]}는 ${STRENGTH_TEXT[t.strength]} 자리입니다.`)
+      reasons.push(`${POSITION_PLAIN[t.position]}는 ${STRENGTH_TEXT[t.strength]} 자리예요.`)
     }
   }
 
@@ -131,27 +131,27 @@ export function computeStructureScore(result: CoursePlatResult): StructureScore 
 
   if (flowGenerates > 0) {
     positive += 6 * flowGenerates
-    reasons.push('앞 단계가 다음 단계를 밀어 주는 흐름이라 일이 이어지기 쉽습니다.')
+    reasons.push('앞 단계가 다음 단계를 밀어 줘서 일이 이어지기 쉬워요.')
   }
   if (flowOvercomes > 0) {
     negative += 6 * flowOvercomes
-    reasons.push('단계마다 부딪히는 지점이 있어 속도가 한 번씩 꺾입니다.')
+    reasons.push('단계마다 부딪히는 지점이 있어 속도가 한 번씩 꺾여요.')
   }
 
   // ── 특수 구조 보정 ───────────────────────────────────
   if (result.patternNames.includes('연여과')) {
     positive += 6
-    reasons.push('흐름이 한 칸씩 앞으로 나아가는 모양이라 일이 순조롭게 이어집니다.')
+    reasons.push('흐름이 한 칸씩 앞으로 가서 일이 잘 이어져요.')
   }
   if (result.patternNames.includes('퇴연주격')) {
     neutral += 6
-    reasons.push('흐름이 한 칸씩 뒤로 물러나는 모양이라 서두르면 손해입니다.')
+    reasons.push('흐름이 한 칸씩 뒤로 가서 서두르면 손해가 나요.')
   }
   if (result.courseName === '복음과') {
-    reasons.push('지금은 상황이 멈춰 있어 새로 벌이기보다 지키는 편이 낫습니다.')
+    reasons.push('지금은 상황이 멈춰 있어요. 새로 벌이기보다 지키는 편이 나아요.')
   }
   if (result.courseName === '반음과') {
-    reasons.push('갔다가 되돌아오는 모양이라 결정이 한 번 뒤집힐 수 있습니다.')
+    reasons.push('갔다가 되돌아오는 모양이라 결정이 한 번 뒤집힐 수 있어요.')
   }
 
   return normalize({ positive, neutral, negative, reasons })

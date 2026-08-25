@@ -52,20 +52,20 @@ const PHASE_KEY: Record<TransmissionPosition, keyof GeneralEntry> = {
 
 /** 힘의 세기를 일상어로 */
 const STRENGTH_NOTE: Record<Strength, string> = {
-  왕: '힘이 가장 셀 때라 밀어붙여도 버팁니다.',
-  상: '기운이 붙는 때라 조금씩 나아집니다.',
-  휴: '한 박자 쉬어 가는 때라 무리하면 지칩니다.',
-  수: '움직임이 막혀 있어 답답할 수 있습니다.',
-  사: '힘이 빠져 있어 혼자 감당하기는 버겁습니다.'
+  왕: '힘이 셀 때라 밀어도 잘 버텨요.',
+  상: '힘이 붙는 때라 조금씩 나아져요.',
+  휴: '한숨 돌릴 때라 무리하면 지쳐요.',
+  수: '길이 막혀 있어 답답할 수 있어요.',
+  사: '힘이 빠져 혼자서는 버거워요.'
 }
 
 /** 일간(나) 기준 역할을 일상어로 */
 const RELATION_NOTE: Record<Relation, string> = {
-  비겁: '내 편과 경쟁자가 함께 있는 자리입니다.',
-  식상: '내가 말하고 움직여야 풀리는 자리입니다.',
-  재성: '눈에 보이는 성과나 돈이 걸린 자리입니다.',
-  관귀: '지켜야 할 규칙이나 압박이 있는 자리입니다.',
-  인수: '도와줄 사람이나 정보가 붙는 자리입니다.'
+  비겁: '내 편과 경쟁자가 같이 있는 자리예요.',
+  식상: '내가 말하고 움직여야 풀리는 자리예요.',
+  재성: '눈에 보이는 성과나 돈이 걸린 자리예요.',
+  관귀: '지켜야 할 규칙이나 압박이 있는 자리예요.',
+  인수: '도와줄 사람이나 정보가 붙는 자리예요.'
 }
 
 /** 흉(凶) 성격의 천장이 있으면 조심할 점으로 안내 */
@@ -76,13 +76,13 @@ function buildCaution(result: CoursePlatResult, generals: Record<HeavenlyGeneral
 
   const lines: string[] = []
   if (risky.length > 0) {
-    lines.push('말과 서류에서 부딪히기 쉬우니 한 번 더 확인하세요.')
+    lines.push('말과 글에서 오해가 나기 쉬워요. 한 번 더 확인하세요.')
   }
   if (weak.length > 0) {
-    lines.push('혼자 힘으로 밀어붙이기보다 도움을 받는 편이 안전합니다.')
+    lines.push('혼자 밀기보다 도움을 받는 편이 안전해요.')
   }
   if (empty.length > 0) {
-    lines.push('아직 정해지지 않은 부분이 있어, 지금 결정하면 나중에 바뀔 수 있습니다.')
+    lines.push('아직 정해지지 않은 부분이 있어요. 지금은 결정을 미루세요.')
   }
   return lines.join(' ')
 }
@@ -96,9 +96,9 @@ export function buildFallbackInterpretation(result: CoursePlatResult): string {
 
   const courseEntry = courses[result.courseName]
   const summaryText = courseEntry?.summary
-    ?? '지금 상황의 흐름을 차분히 살펴보라는 뜻입니다.'
+    ?? '지금 흐름을 차분히 살펴보라는 뜻이에요.'
   const baseText = courseEntry?.general
-    ?? '지금의 흐름을 기준으로 상황을 풀어 설명합니다.'
+    ?? '지금의 흐름을 기준으로 상황을 풀어 설명해요.'
   const adviceText = courseEntry?.advice ?? courseEntry?.focus ?? ''
   const queryText = courseEntry?.byQuery?.[result.queryType] ?? ''
 
@@ -108,7 +108,7 @@ export function buildFallbackInterpretation(result: CoursePlatResult): string {
     if (!g) return ''
     const meaning = g[PHASE_KEY[t.position]]
     const extra = t.isVoid
-      ? '아직 자리가 비어 있어 결론을 미루는 편이 낫습니다.'
+      ? '아직 자리가 비어 있어 결론을 미루는 편이 나아요.'
       : STRENGTH_NOTE[t.strength]
     return `${PHASE_LABEL[t.position]}: ${meaning} ${extra}`
   }).filter(Boolean)
@@ -127,9 +127,9 @@ export function buildFallbackInterpretation(result: CoursePlatResult): string {
     `🧭 지금 흐름\n${baseText}${stakeText ? ` ${stakeText}` : ''}`,
     queryText ? `💬 이 질문이라면\n${queryText}` : '',
     phaseLines.length > 0 ? `⏳ 시작 → 중간 → 마무리\n${phaseLines.join('\n')}` : '',
-    readingText ? `🔎 이렇게 읽었어요\n${readingText}` : '',
+    readingText ? `🔎 이렇게 봤어요\n${readingText}` : '',
     cautionText ? `⚠️ 조심할 점\n${cautionText}` : '',
-    adviceText ? `✅ 이렇게 해보세요\n${adviceText}` : ''
+    adviceText ? `✅ 이렇게 해 보세요\n${adviceText}` : ''
   ].filter(Boolean)
 
   return parts.join('\n\n')

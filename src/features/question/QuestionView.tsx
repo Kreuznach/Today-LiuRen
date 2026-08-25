@@ -165,7 +165,7 @@ export default function QuestionView({ onReady }: QuestionViewProps) {
       </button>
 
       <p className="disclaimer">
-        이 서비스는 재미로 보는 참고용 콘텐츠이며, 의학·법률·재정 등 전문적인 판단을 대신하지 않습니다.
+        이 결과는 재미로 보는 참고용이에요. 중요한 결정은 어른이나 전문가와 상의해 주세요.
       </p>
     </div>
   )

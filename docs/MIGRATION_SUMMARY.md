@@ -31,6 +31,8 @@
   6개 내부 분류(사업/연애/건강/분실물/여행/기타)로 매핑해서 해석 문장의 품질을 지켰어요.
 - 텍스트 분류(긍정 우세/신중한 긍정/중립/변수 많음/주의 필요) — 실제 계산된 기운 점수
   (`score.ts`의 긍정/중립/부정 점수)를 기준으로 정하며, 난수(랜덤)는 전혀 쓰지 않습니다.
+  화면에는 이 이름을 그대로 쓰지 않고 "흐름이 좋아요 / 괜찮지만 천천히 / 보통이에요 /
+  바뀔 수 있어요 / 조심하세요"처럼 쉬운 말로 보여 줍니다.
 - `features/question`, `features/reading` — 질문 화면과 결과 화면(React 컴포넌트).
 - `features/reading/detailInterpretation.ts` — 심화 해석 인터페이스 + 로컬 fallback.
   AI 서버가 아직 없어서 지금은 항상 계산 결과 기반 문장을 보여 주고, AI 연결 지점은
@@ -125,3 +127,23 @@
 - `npm test` — 엔진 9개, 콘텐츠 8개 모두 통과 (계산 결과는 예전과 완전히 동일)
 - `npm run typecheck` — 오류 없음
 - `npm run build` — 성공
+
+## 9. 화면을 더 읽기 쉽게 바꾼 작업 (2026-08-25)
+
+계산 공식은 하나도 건드리지 않고, **화면과 글**만 바꿨어요.
+
+- **글자 크기**: 본문 14px → 16px, 버튼 16px → 18px, 분위기 제목 20px처럼 전체가 조금 커졌어요.
+- **색**: 어두운 보라색을 빼고, 한지처럼 따뜻한 베이지 + 먹색 + 붉은 갈색으로 바꿨어요.
+  (`src/index.css`, `granite.config.ts`의 `primaryColor`, `index.html`의 `theme-color`)
+- **결과 글**: "~입니다"처럼 딱딱한 말을 "~예요 / ~해요"로 바꿨어요.
+  (`courses.json`, `generals.json`, `interpreter.ts`, `score.ts`, `detailInterpretation.ts`)
+- **분위기 이름표**: 작은 글씨 배지 대신, 큰 이모지와 색 있는 안내 칸으로 바꿨어요.
+  (`ReadingView.tsx`의 `mood-banner`)
+  - ☀️ 흐름이 좋아요
+  - 🙂 괜찮지만 천천히
+  - ⚖️ 보통이에요
+  - 🔀 바뀔 수 있어요
+  - ⚠️ 조심하세요
+
+확인 결과: `npm test`(엔진 9개 + 콘텐츠 8개) 통과, `npm run typecheck` 통과, `npm run build:ait`로
+`today-liuren.ait`를 새로 만들었어요.
