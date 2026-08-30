@@ -10,6 +10,7 @@ import { calculateCoursePlat } from './engine/coursePlate'
 import { buildFallbackInterpretation } from './engine/interpreter'
 import { computeStructureScore } from './engine/score'
 import { BRANCHES } from './engine/elements'
+import { scoreQuestionKeywords } from './data/questionKeywords'
 
 /** 사용자가 실제로 고르는 5개 질문 카테고리 (기획서 8장 기준) */
 export type LiurenCategory = '관계' | '일사업' | '선택결정' | '분실이동' | '기타'
@@ -25,6 +26,29 @@ const CATEGORY_TO_QUERY_TYPE: Record<LiurenCategory, QueryType> = {
   선택결정: '기타',
   분실이동: '분실물',
   기타: '기타',
+}
+
+const INFERRED_QUERY_TYPES = ['연애', '사업', '분실물', '여행', '건강'] as const
+
+/** 카테고리가 넓게 선택되었을 때 질문 속 여러 단서의 점수를 비교한다. */
+function resolveQueryType(category: LiurenCategory, question: string): QueryType {
+  if (category === '관계' || category === '일사업') return CATEGORY_TO_QUERY_TYPE[category]
+
+  const candidates = category === '분실이동'
+    ? (['분실물', '여행'] as const)
+    : INFERRED_QUERY_TYPES
+  let bestType: QueryType = CATEGORY_TO_QUERY_TYPE[category]
+  let bestScore = 0
+
+  for (const queryType of candidates) {
+    const score = scoreQuestionKeywords(question, queryType)
+    if (score > bestScore) {
+      bestType = queryType
+      bestScore = score
+    }
+  }
+
+  return bestType
 }
 
 /** 통계적 확률로 오해되지 않도록 사용하는 텍스트 분류 (기획서 8장 기준) */
@@ -83,8 +107,9 @@ export interface LiurenReading {
  * 같은 입력이면 항상 같은 결과가 나오는 순수 함수다.
  */
 export function calculateLiurenReading(input: LiurenReadingInput): LiurenReading {
-  const queryType = CATEGORY_TO_QUERY_TYPE[input.category]
+  const queryType = resolveQueryType(input.category, input.question)
   const result = calculateCoursePlat(input.askedAt, queryType)
+  const classification = classify(result)
 
   return {
     askedAt: input.askedAt.toISOString(),
@@ -94,8 +119,11 @@ export function calculateLiurenReading(input: LiurenReadingInput): LiurenReading
     firstTransmission: result.threeTransmissions[0],
     middleTransmission: result.threeTransmissions[1],
     finalTransmission: result.threeTransmissions[2],
-    classification: classify(result),
-    baseInterpretation: buildFallbackInterpretation(result),
+    classification,
+    baseInterpretation: buildFallbackInterpretation(result, {
+      question: input.question,
+      classification,
+    }),
     category: input.category,
     question: input.question,
     raw: result,

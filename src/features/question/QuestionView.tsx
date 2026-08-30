@@ -53,6 +53,11 @@ export default function QuestionView({ onReady }: QuestionViewProps) {
 
   async function handleSubmit() {
     if (loading) return
+    const trimmedQuestion = question.trim()
+    if (!trimmedQuestion) {
+      showToast('궁금한 내용을 먼저 적어 주세요.')
+      return
+    }
     if (noMoreQuestions) {
       showToast('오늘의 질문 횟수를 모두 사용했어요. 내일 다시 찾아 주세요!')
       return
@@ -72,7 +77,7 @@ export default function QuestionView({ onReady }: QuestionViewProps) {
       }
 
       const askedAt = resolveAskedAt()
-      const reading = calculateLiurenReading({ askedAt, category, question })
+      const reading = calculateLiurenReading({ askedAt, category, question: trimmedQuestion })
 
       if (isFirstFree) markFirstQuestionAsked(dailyUsage)
       else markExtraQuestionAsked(dailyUsage)
@@ -159,7 +164,7 @@ export default function QuestionView({ onReady }: QuestionViewProps) {
         type="button"
         className="cta-button"
         onClick={handleSubmit}
-        disabled={loading || noMoreQuestions}
+        disabled={loading || noMoreQuestions || !question.trim()}
       >
         {loading ? '점괘를 살펴보는 중…' : '결과 보기'}
       </button>

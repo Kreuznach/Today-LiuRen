@@ -76,10 +76,15 @@ function buildFallbackDetail(reading: LiurenReading): DetailReading {
 
   const moodTitle = MOOD_TITLE[classification]
   const oneLineConclusion = `지금은 "${moodTitle}" 때예요. ${doNow[0]}`
+  const detailText = finalTransmission.isVoid
+    ? '마지막 흐름이 아직 비어 있어, 결론이 한 번 바뀔 수 있어요.'
+    : finalTransmission.strength === '수' || finalTransmission.strength === '사'
+      ? '마지막으로 갈수록 힘이 약해져, 천천히 확인하며 가는 게 좋아요.'
+      : '마지막까지 힘이 이어져, 준비한 일을 차근차근 해볼 만해요.'
 
   return {
     status: 'fallback',
-    detailText: reading.baseInterpretation,
+    detailText,
     doNow,
     avoid,
     expectedVariables,
