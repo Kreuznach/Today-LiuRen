@@ -131,7 +131,7 @@ npm run build:ait
 | --- | --- | --- |
 | 앱 이름/아이콘 | `granite.config.ts`의 `brand` | 토스 콘솔에서 아이콘 심사 후 URL 발급받기 |
 | 광고 그룹 ID | `.env.local`(및 `.env.example`)의 `VITE_AIT_REWARDED_*` | ✅ 발급 완료 — 정밀 분석용 `ait.v2.live.13dd43c6c51f4add`(`detail`), 질문권 추가용 `ait.v2.live.57e003203911488c`(`extraQuestion`) 적용됨 |
-| 광고 환경 설정 | `.env.local`(및 `.env.example`)의 `VITE_AD_ENV` | ✅ `production`으로 고정 — dev/build 여부와 관계없이 항상 실제 광고 ID를 사용함 |
+| 광고 ID 강제 규칙 | `src/features/ads/rewardAd.ts` | ✅ 테스트 광고 ID 폴백 제거 — 광고 시청 때는 항상 실제 발급된 `ait.v2.live.*` ID만 사용함 |
 | Supabase 값(선택) | `.env.local`의 `VITE_SUPABASE_*` | 지금은 사용 안 함(로컬 저장만 사용) |
 | AI 해석 서버(선택) | `AI_API_ENDPOINT`, `AI_API_SECRET` | 아직 준비 안 됨, 나중에 서버를 통해서만 연결 |
 
@@ -162,3 +162,16 @@ npm run build:ait
   - ⚠️ 조심하세요
 
 이 작업 뒤에는 `npm test` → `npm run typecheck` → `npm run build:ait` 순서로 확인했어요.
+
+## 10. 광고 ID를 항상 실제 값으로 고친 작업 (2026-09-01)
+
+광고를 볼 때 가끔 테스트 광고로 빠질 수 있는 길이 코드에 남아 있었어요.
+
+- **문제**: 광고 ID를 고르는 코드에 `테스트 ID` 폴백이 있었어요.
+- **원인**: 환경변수 값이 비었거나 `test`로 잡히면 테스트 ID를 쓰도록 만들어져 있었어요.
+- **해결**: 테스트 ID 분기를 완전히 지우고, `ait.v2.live.*` 형식의 실제 ID만 쓰게 고쳤어요.
+  환경변수가 비어 있거나 잘못돼도, 코드 안의 실제 발급 ID로 자동 고정돼요.
+- **확인**:
+  - `npm test` 통과 (엔진 13개, 콘텐츠 8개)
+  - `npm run typecheck` 통과
+  - `npm run build:ait` 통과 (`today-liuren.ait` 새로 생성)

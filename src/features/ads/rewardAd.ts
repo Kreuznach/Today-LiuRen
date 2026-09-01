@@ -21,7 +21,10 @@ export type RewardAdResult =
 
 export type RewardAdSlot = 'detail' | 'extraQuestion'
 
-const AD_GROUP_ID_TEST = 'ait-ad-test-rewarded-id'
+const ISSUED_AD_GROUP_ID: Record<RewardAdSlot, string> = {
+  detail: 'ait.v2.live.13dd43c6c51f4add',
+  extraQuestion: 'ait.v2.live.57e003203911488c',
+}
 
 const AD_GROUP_ID_ENV: Record<RewardAdSlot, string | undefined> = {
   detail: import.meta.env.VITE_AIT_REWARDED_DETAIL_AD_GROUP_ID,
@@ -29,10 +32,10 @@ const AD_GROUP_ID_ENV: Record<RewardAdSlot, string | undefined> = {
 }
 
 function resolveAdGroupId(slot: RewardAdSlot): string {
-  const adEnv = import.meta.env.VITE_AD_ENV
-  const useTest = adEnv === 'test' ? true : adEnv === 'production' ? false : import.meta.env.DEV
-  if (useTest) return AD_GROUP_ID_TEST
-  return AD_GROUP_ID_ENV[slot] || AD_GROUP_ID_TEST
+  // 환경변수가 비었거나 test 값이어도, 실제 발급된 live ID만 사용한다.
+  const fromEnv = AD_GROUP_ID_ENV[slot]?.trim()
+  if (fromEnv && fromEnv.startsWith('ait.v2.live.')) return fromEnv
+  return ISSUED_AD_GROUP_ID[slot]
 }
 
 let isShowingAd = false
