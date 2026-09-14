@@ -189,3 +189,43 @@
 - 테스트: `npm test` 통과 (엔진 13개, 콘텐츠 8개)
 - 타입 검사: `npm run typecheck` 통과
 - 새 빌드 파일: `npm run build:ait` 통과, `today-liuren.ait` 새로 생성 완료
+
+## 12. 앱인토스 SDK를 3.4.0으로 올린 작업 (2026-09-14)
+
+### 왜 했나요?
+
+- 토스에서 앱인토스 SDK는 **3.1 버전 이상**을 쓰라고 안내하고 있어요.
+- 이 프로젝트는 `2.10.7`(2 버전대)을 쓰고 있어서, 안내에 맞게 최신 버전으로 올렸어요.
+
+### 무엇을 바꿨나요?
+
+- `package.json`의 `@apps-in-toss/web-framework`를 `2.10.7` → `3.4.0`(현재 가장 최신 정식 버전)으로 올렸어요.
+- SDK 3버전은 설정 파일 이름과 형식이 달라져서, 토스가 제공하는 자동 변환 명령
+  (`npx ait migrate v3`)을 실행해 안전하게 옮겼어요.
+  - `granite.config.ts` → `apps-in-toss.config.ts`로 이름과 내용이 바뀜(아이콘 설정은 이제
+    토스 파트너 콘솔에서 직접 등록해요).
+  - `package.json`의 `build` 스크립트 끝에 `ait build`가 자동으로 붙어서, 이제
+    `npm run build` 한 번이면 배포용 `.ait` 파일까지 같이 만들어져요(타입 검사(`tsc`)는
+    그대로 유지되도록 다시 넣어 뒀어요).
+  - 개발용 도구 `@apps-in-toss/devtools`가 새로 추가돼서, 컴퓨터 브라우저에서도 토스 앱
+    흉내를 내며 개발할 수 있어요.
+- 광고(`GoogleAdMob`)와 앱 닫기(`closeView`) 코드는 SDK 3버전에서도 그대로 쓸 수 있어서
+  고치지 않았어요.
+
+### 꼭 기억해야 할 점
+
+- ⚠️ SDK 3버전 이상으로 한 번 출시하면 2버전으로 다시 되돌릴 수 없어요. 그래서 출시 전에
+  QR코드로 충분히 테스트해야 해요.
+- ⚠️ SDK 3버전부터는 CORS(어떤 주소에서 온 요청을 허용할지 정하는 규칙)가 바뀌어요.
+  아래 두 주소를 토스 파트너 콘솔의 "허용 주소" 목록에 등록해야, 광고 같은 기능이
+  막히지 않아요.
+  - `https://today-liuren.web.tossmini.com` (실제 서비스용)
+  - `https://today-liuren.private-web.tossmini.com` (콘솔 QR 테스트용)
+
+### 지금 어디까지 끝났나요?
+
+- SDK 버전: `@apps-in-toss/web-framework@3.4.0` 설치 확인 완료
+- 타입 검사: `npm run typecheck` 통과
+- 테스트: `npm test` 통과 (엔진 13개, 콘텐츠 8개)
+- 빌드: `npm run build` 통과 (`tsc` → `vite build` → `ait build` 순서로 전부 성공)
+- 배포용 파일: `today-liuren.ait` 새로 생성 완료 (deploymentId 자동 발급 확인)

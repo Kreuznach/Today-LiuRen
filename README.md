@@ -129,7 +129,7 @@ npm run build:ait
 
 | 무엇을 | 어디서 | 비고 |
 | --- | --- | --- |
-| 앱 이름/아이콘 | `granite.config.ts`의 `brand` | 토스 콘솔에서 아이콘 심사 후 URL 발급받기 |
+| 앱 이름/아이콘 | `apps-in-toss.config.ts`의 `brand`(색), 아이콘은 토스 파트너 콘솔에서 등록 | 토스 콘솔에서 아이콘 심사 후 등록하기 |
 | 광고 그룹 ID | `.env.local`(및 `.env.example`)의 `VITE_AIT_REWARDED_*` | ✅ 발급 완료 — 정밀 분석용 `ait.v2.live.13dd43c6c51f4add`(`detail`), 질문권 추가용 `ait.v2.live.57e003203911488c`(`extraQuestion`) 적용됨 |
 | 광고 ID 강제 규칙 | `src/features/ads/rewardAd.ts` | ✅ 테스트 광고 ID 폴백 제거 — 광고 시청 때는 항상 실제 발급된 `ait.v2.live.*` ID만 사용함 |
 | Supabase 값(선택) | `.env.local`의 `VITE_SUPABASE_*` | 지금은 사용 안 함(로컬 저장만 사용) |
@@ -175,3 +175,22 @@ npm run build:ait
   - `npm test` 통과 (엔진 13개, 콘텐츠 8개)
   - `npm run typecheck` 통과
   - `npm run build:ait` 통과 (`today-liuren.ait` 새로 생성)
+
+## 11. 앱인토스 SDK를 최신 버전(3.4.0)으로 올린 작업 (2026-09-14)
+
+토스에서 앱인토스 SDK는 **3.1 버전 이상**을 쓰라고 안내해서, 이 프로젝트도 최신 버전으로 올렸어요.
+
+- **바꾼 것**: `@apps-in-toss/web-framework`을 `2.10.7` → `3.4.0`(가장 최신 버전)으로 올렸어요.
+- **설정 파일도 새로 바뀌었어요**: SDK 3버전부터는 설정 파일 이름이 `granite.config.ts`가 아니라
+  `apps-in-toss.config.ts`예요. 토스가 제공하는 자동 변환 명령(`ait migrate v3`)으로 안전하게 옮겼어요.
+- **개발할 때 도움 주는 도구가 늘었어요**: `@apps-in-toss/devtools`가 새로 추가돼서, 컴퓨터 브라우저에서도
+  토스 앱인 것처럼 흉내 내며 개발할 수 있어요.
+- ⚠️ **출시 전 꼭 확인할 것**: SDK 3버전 이상으로 한 번 출시하면 2버전으로 다시 되돌릴 수 없대요.
+  그리고 아래 두 주소를 토스 파트너 콘솔의 "허용 주소(CORS)" 목록에 등록해야 광고 등 기능이 막히지 않아요.
+  - `https://today-liuren.web.tossmini.com` (실제 서비스용)
+  - `https://today-liuren.private-web.tossmini.com` (콘솔 QR 테스트용)
+- **확인**:
+  - `npm run typecheck` 통과
+  - `npm test` 통과 (엔진 13개, 콘텐츠 8개)
+  - `npm run build` 통과 (`tsc` → `vite build` → `ait build`가 순서대로 실행되고, 그 안에서
+    `today-liuren.ait` 파일도 함께 새로 만들어져요)
