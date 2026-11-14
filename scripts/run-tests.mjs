@@ -10,7 +10,7 @@ import fs from 'node:fs'
 const outDir = path.resolve('node_modules/.cache/today-liuren-tests')
 fs.mkdirSync(outDir, { recursive: true })
 
-const suites = ['engine.test.ts', 'content.test.ts']
+const suites = ['engine.test.ts', 'content.test.ts', 'insight.test.ts']
 
 await build({
   entryPoints: suites.map(name => path.resolve('tests', name)),

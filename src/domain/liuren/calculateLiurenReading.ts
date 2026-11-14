@@ -8,7 +8,8 @@
 import type { Branch, CoursePlatResult, QueryType, Transmission } from './types'
 import { calculateCoursePlat } from './engine/coursePlate'
 import { buildFallbackInterpretation } from './engine/interpreter'
-import { computeStructureScore } from './engine/score'
+import { computeInsight, type ReadingInsight } from './engine/insight'
+import { detectIntent, type QuestionIntent } from './engine/intent'
 import { BRANCHES } from './engine/elements'
 import { scoreQuestionKeywords } from './data/questionKeywords'
 
@@ -55,9 +56,8 @@ function resolveQueryType(category: LiurenCategory, question: string): QueryType
 export type ReadingClassification =
   | '긍정 우세' | '신중한 긍정' | '중립' | '변수 많음' | '주의 필요'
 
-/** 실제 계산된 기운 점수(score.ts)를 바탕으로 텍스트 분류를 정한다. 난수는 쓰지 않는다. */
-function classify(result: CoursePlatResult): ReadingClassification {
-  const { positive, neutral, negative } = computeStructureScore(result)
+/** 주제 보정까지 반영한 기운 점수(insight.ts)로 텍스트 분류를 정한다. 난수는 쓰지 않는다. */
+function classify({ positive, neutral, negative }: ReadingInsight['adjusted']): ReadingClassification {
   const dominant = Math.max(positive, neutral, negative)
 
   if (dominant === negative && negative - Math.max(positive, neutral) >= 8) {
@@ -95,6 +95,10 @@ export interface LiurenReading {
   finalTransmission: Transmission   // 말전
   classification: ReadingClassification
   baseInterpretation: string
+  /** 질문이 묻는 뜻(시기·장소·결과 …) */
+  intent: QuestionIntent
+  /** 주제별 판단·근거·단서·또렷함 등 정밀 분석 */
+  insight: ReadingInsight
   /** 화면에 표시할 사용자 카테고리/질문 원문 */
   category: LiurenCategory
   question: string
@@ -109,7 +113,9 @@ export interface LiurenReading {
 export function calculateLiurenReading(input: LiurenReadingInput): LiurenReading {
   const queryType = resolveQueryType(input.category, input.question)
   const result = calculateCoursePlat(input.askedAt, queryType)
-  const classification = classify(result)
+  const intent = detectIntent(input.question, queryType)
+  const insight = computeInsight(result, intent)
+  const classification = classify(insight.adjusted)
 
   return {
     askedAt: input.askedAt.toISOString(),
@@ -120,9 +126,13 @@ export function calculateLiurenReading(input: LiurenReadingInput): LiurenReading
     middleTransmission: result.threeTransmissions[1],
     finalTransmission: result.threeTransmissions[2],
     classification,
+    intent,
+    insight,
     baseInterpretation: buildFallbackInterpretation(result, {
       question: input.question,
       classification,
+      intent,
+      insight,
     }),
     category: input.category,
     question: input.question,

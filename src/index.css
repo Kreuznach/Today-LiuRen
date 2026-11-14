@@ -298,6 +298,17 @@ body {
 }
 
 .transmission-card.is-void { opacity: 0.7; }
+.strength-bar { letter-spacing: 2px; font-size: 11px; color: var(--color-primary); margin-top: 2px; }
+.clarity-box {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+}
+.clarity-label { font-weight: 700; }
+.clarity-dots { letter-spacing: 2px; }
 .transmission-title { font-size: 15px; margin-bottom: 6px; }
 .transmission-branch { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
 .transmission-void-badge {

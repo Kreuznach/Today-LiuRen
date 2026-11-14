@@ -3,7 +3,7 @@
  * 나와 상대의 짝 네 개(사과)를 표 형태로 보여준다.
  */
 import type { LiurenReading } from '../../domain/liuren/calculateLiurenReading'
-import { branchLabel } from '../../domain/liuren/labels'
+import { branchLabelWithEmoji } from '../../domain/liuren/labels'
 
 interface CourseDiagramProps {
   reading: LiurenReading
@@ -25,8 +25,8 @@ export default function CourseDiagram({ reading }: CourseDiagramProps) {
           {reading.fourLessons.map(course => (
             <tr key={course.index}>
               <td>{course.index}번째</td>
-              <td>{branchLabel(course.heaven)}</td>
-              <td>{branchLabel(course.earth)}</td>
+              <td>{branchLabelWithEmoji(course.heaven)}</td>
+              <td>{branchLabelWithEmoji(course.earth)}</td>
             </tr>
           ))}
         </tbody>

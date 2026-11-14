@@ -12,7 +12,7 @@ import generalsData from '../src/domain/liuren/data/generals.json'
 import { GLOSSARY, GLOSSARY_ORDER } from '../src/domain/liuren/data/glossary'
 import { buildFallbackInterpretation } from '../src/domain/liuren/engine/interpreter'
 import { calculateCoursePlat } from '../src/domain/liuren/engine/coursePlate'
-import { calculateLiurenReading } from '../src/domain/liuren/calculateLiurenReading'
+import { calculateLiurenReading, type LiurenCategory } from '../src/domain/liuren/calculateLiurenReading'
 import { getDetailReading } from '../src/features/reading/detailInterpretation'
 
 let passed = 0
@@ -137,7 +137,10 @@ test('어려운 말 풀이는 목록과 설명이 서로 맞는다', () => {
 })
 
 test('화면에 쓰는 쉬운 말이 모두 풀이에 들어 있다', () => {
-  const shownLabels = ['위 칸', '아래 칸', '네 칸 표', '기운 카드', '힘', '아직 빈 자리', '전체 모양 이름']
+  const shownLabels = [
+    '위 칸', '아래 칸', '네 칸 표', '기운 카드', '힘', '아직 빈 자리', '전체 모양 이름',
+    '읽기의 또렷함', '단서',
+  ]
   for (const label of shownLabels) {
     assert(label in GLOSSARY, `화면에 쓰는 "${label}"의 풀이가 없습니다.`)
   }
@@ -162,17 +165,61 @@ test('여러 시각에서 만들어진 기본 해설이 모두 쉬운 말이다'
 })
 
 testAsync('여러 시각에서 만들어진 자세한 해설이 모두 쉬운 말이다', async () => {
+  const categories = ['관계', '일사업', '선택결정', '분실이동', '기타'] as const
   for (let day = 0; day < 30; day++) {
     const date = new Date(2026, 3, 1 + day, 14, 40)
-    const reading = calculateLiurenReading({ askedAt: date, category: '선택결정', question: '테스트' })
-    const detail = await getDetailReading(reading)
+    for (const category of categories) {
+      const reading = calculateLiurenReading({ askedAt: date, category, question: '테스트' })
+      const detail = await getDetailReading(reading)
 
-    const label = `자세한 해설(${date.toISOString()})`
-    checkPlainKorean(label, detail.detailText)
-    checkPlainKorean(label, detail.oneLineConclusion)
-    for (const line of [...detail.doNow, ...detail.avoid, ...detail.expectedVariables]) {
-      checkPlainKorean(label, line)
+      const label = `자세한 해설(${category}, ${date.toISOString()})`
+      checkPlainKorean(label, detail.detailText)
+      checkPlainKorean(label, detail.oneLineConclusion)
+      for (const line of [
+        ...detail.doNow, ...detail.avoid, ...detail.expectedVariables,
+        ...detail.stageStory, ...detail.sides,
+      ]) {
+        checkPlainKorean(label, line)
+      }
     }
+  }
+})
+
+// ── 5) 정밀 분석(insight) 문장 ────────────────────────────────
+const SAMPLE_QUESTIONS: Array<[LiurenCategory, string]> = [
+  ['분실이동', '잃어버린 지갑을 찾을 수 있을까?'],
+  ['분실이동', '휴대폰이 어디에 있을까?'],
+  ['관계', '언제 다시 연락이 올까?'],
+  ['관계', '그 사람이 나를 좋아할까?'],
+  ['일사업', '이번 면접에 합격할 수 있을까?'],
+  ['기타', '허리 통증이 회복될까?'],
+  ['선택결정', '새 가방을 살까?'],
+]
+
+test('정밀 분석(근거·자리·단서·또렷함)과 질문별 해설이 모두 쉬운 말이다', () => {
+  for (let day = 0; day < 40; day++) {
+    for (const [category, question] of SAMPLE_QUESTIONS) {
+      const date = new Date(2026, 4, 1 + day, (day * 5) % 24, 10)
+      const reading = calculateLiurenReading({ askedAt: date, category, question })
+      const label = `정밀 분석(${question}, ${date.toISOString()})`
+      const { insight } = reading
+
+      checkPlainKorean(label, reading.baseInterpretation)
+      checkPlainKorean(label, insight.mySide)
+      checkPlainKorean(label, insight.otherSide)
+      checkPlainKorean(label, insight.placeClue)
+      checkPlainKorean(label, insight.timingClue)
+      checkPlainKorean(label, insight.timingSpeed)
+      checkPlainKorean(label, insight.clarityHint)
+      checkPlainKorean(label, insight.clarityLabel)
+      for (const line of insight.evidence) checkPlainKorean(label, line)
+    }
+  }
+})
+
+test('기운 카드 조언 문장도 쉬운 말이다', () => {
+  for (const [name, entry] of Object.entries(generalsData as Record<string, { advice: string }>)) {
+    checkPlainKorean(`${name}.advice`, entry.advice)
   }
 })
 

@@ -59,6 +59,13 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
       <section className="reading-section">
         <h2>📌 전체 흐름</h2>
         <p className="base-interpretation">{reading.baseInterpretation}</p>
+        <div className="clarity-box">
+          <span className="clarity-label">🎯 읽기의 또렷함</span>
+          <span className="clarity-dots" aria-hidden="true">
+            {'●'.repeat(reading.insight.clarityLevel) + '○'.repeat(3 - reading.insight.clarityLevel)}
+          </span>
+          <span className="clarity-text">{reading.insight.clarityLabel}</span>
+        </div>
       </section>
 
       <section className="reading-section">
@@ -85,6 +92,18 @@ export default function ReadingView({ reading, onRestart }: ReadingViewProps) {
         {detail && (
           <div className="detail-body">
             <p className="detail-text">{detail.detailText}</p>
+            {detail.stageStory.length > 0 && (
+              <>
+                <h3>📖 단계별 이야기</h3>
+                <ul>{detail.stageStory.map((line, i) => <li key={i}>{line}</li>)}</ul>
+              </>
+            )}
+            {detail.sides.length > 0 && (
+              <>
+                <h3>🙋 나와 상대의 자리</h3>
+                <ul>{detail.sides.map((line, i) => <li key={i}>{line}</li>)}</ul>
+              </>
+            )}
             <h3>✅ 지금 할 수 있는 일</h3>
             <ul>{detail.doNow.map((line, i) => <li key={i}>{line}</li>)}</ul>
             <h3>🚫 피하면 좋은 일</h3>
